@@ -93,6 +93,21 @@ function populateAnalyticsInterface(){
             alert(response["error"]);
         }
     });
+    $.get("cgi-bin/top_talkers.py?csvname=" + $("#file-to-analyze-title").text() + "&srcipcoli=" + $("#src-ip-index").val() + "&dstipcoli=" + $("#dst-ip-index").val() + "&sizecoli=" + $("#size-index").val() + "&type=all", function(response){
+        var tableBody = ''
+        var response = JSON.parse(response);
+        if(response["error"] == undefined){
+            var data = response["success"];
+            for(var i=0; i < data.length; i++){
+                tableBody += '<tr><td>' + data[i]["ip"] + "</td>" + "<td>" + data[i]["total_bytes_sent"] + "</td>" + "<td>" + data[i]["occurrences"] + "</td></tr>";
+            }
+            $("#top-talkers-content").html(tableBody);
+
+        }
+        else{
+            alert(response["error"]);
+        }
+    });
     $.get('cgi-bin/list_column_headings.py?csvname=' + $("#file-to-analyze-title").text(), function(headings){
             var headingsHTML = "";
             var headings = JSON.parse(headings);

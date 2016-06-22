@@ -1,19 +1,20 @@
 __author__ = 'HKEFF7'
 
+import sys
 def list_files_in_directory(directory, include_hidden=False, sort_by_creation_date=False):
-	from os import listdir
-	from os.path import isfile, join, getmtime
-	files = [f for f in listdir(str(directory))]
-	filteredFiles = []
-	if include_hidden == False:
-		for f in files:
-			if f[0] != '.':
-				filteredFiles.append(f)
-	else:
-		filteredFiles = files
-	if sort_by_creation_date:
-		filteredFiles.sort(key=lambda f: getmtime(str(directory) + f), reverse=False)
-	return filteredFiles
+    from os import listdir
+    from os.path import isfile, join, getmtime
+    files = [f for f in listdir(str(directory))]
+    filteredFiles = []
+    if include_hidden == False:
+        for f in files:
+            if f[0] != '.':
+                filteredFiles.append(f)
+    else:
+        filteredFiles = files
+    if sort_by_creation_date:
+        filteredFiles.sort(key=lambda f: getmtime(str(directory) + f), reverse=False)
+    return filteredFiles
 
 class AnalysisSession():
     def __init__(self, csv_file_location, srcipcolumni=None, dstipcolumni=None, srcportcolumni=None, dstportcolumni=None, sizecolumni=None):
@@ -44,43 +45,65 @@ class AnalysisSession():
         else:
             return self.csv_as_list[1: len(self.csv_as_list)]
 
-    def get_unique_ips(self, type="source"):
+    def get_unique_ips(self, type="both"):
         uniqueIPs = set()
         if type.lower() == "src" or type == "source":
             index = self.srcipcolumni
-        else:
+        elif type.lower() == "dst" or type.lower() == "dest" or type.lower() == "destination":
             index = self.dstipcolumni
+        else:
+            index = (self.srcipcolumni, self.dstipcolumni)
+            print >> sys.stderr, index
+
+
         if index != None:
-            for row in self.get_csv_as_list(headers=False, data=True):
-                uniqueIPs.add(row[index])
+            if isinstance(index, int):
+                for row in self.get_csv_as_list(headers=False, data=True):
+                    uniqueIPs.add(row[index])
+            else:
+                for row in self.get_csv_as_list(headers=False, data=True):
+                    uniqueIPs.add(row[index[0]])
+                    uniqueIPs.add(row[index[1]])
+
             return {"success": uniqueIPs}
         return {"error": type + " column never specified"}
 
 
-    def get_top_talkers(self, type="source", sorton="total_bytes_sent"):
+    def get_top_talkers(self, type="both", sorton="total_bytes_sent"):
         if type.lower() == "src" or type == "source":
             index = self.srcipcolumni
-        else:
+        elif type.lower() == "dst" or type.lower() == "dest" or type.lower() == "destination":
             index = self.dstipcolumni
+        else:
+            index = (self.srcipcolumni, self.dstipcolumni)
         unique = self.get_unique_ips(type=type)
         try:
             unique = unique["success"]
         except KeyError:
             return {"error": unique["error"]}
-        if self.sizecolumni != None:
 
+        if self.sizecolumni != None:
             topTalkers = []
             for uip in unique:
                 size = 0
                 count = 0
                 topTalker = {}
                 for row in self.get_csv_as_list(headers=False, data=True):
-                    if row[index] == uip:
-                        count+=1
-                        try:
-                            size+=int(row[self.sizecolumni])
-                        except ValueError:
-                            return {"error": "size column must be an integer"}
+                    if isinstance(index, int):
+                        if row[index] == uip:
+                            count+=1
+                            try:
+                                size+=int(row[self.sizecolumni])
+                            except ValueError:
+                                return {"error": "size column must be an integer"}
+                    else:
+                        if row[index[0]] == uip or row[index[1]] == uip:
+                            count += 1
+                            try:
+                                size+=int(row[self.sizecolumni])
+                            except ValueError:
+                                return {"error": "size column must be an integer"}
+
                 topTalker.update({
                     "type": type,
                     "ip": uip,
