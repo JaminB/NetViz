@@ -63,12 +63,16 @@
                 </div>
                 <div hidden id="analytics-interface" class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>Analytics</h4>
+                        <h3>Analytics</h3>
                     </div>
                     <div class="panel-body">
                         <div class="col-xs-6">
+			    <ul class="nav nav-tabs">
+				<li class="active"><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Table</a></li>
+				<li><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Chart</a></li>
+			    </ul>	
                             <h4 class="sub-header">Unique Source IPs Ordered By Total Bytes Sent</h4>
-                            <table class="table table-hover table-bordered">
+                            <table id="unique-source-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
                                 <thead>
                                     <tr>
                                         <th>Source IP</th>
@@ -76,14 +80,18 @@
                                         <th>Connections</th>
                                     </tr>
                                 </thead>
-                                <tbody id="top-source-talkers-content">
-
-                                </tbody>
+                                <tbody id="top-source-talkers-content"></tbody>
+				<tfoot></tfoot>
                             </table>
+			    <div id="unique-source-ip-container"></div>
                         </div>
                         <div class="col-xs-6">
+			    <ul class="nav nav-tabs">
+				<li class="active"><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Table</a></li>
+				<li><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Chart</a></li>
+			    </ul>	
                             <h4 class="sub-header">Unique Destination IPs Ordered By Total Bytes Received</h4>
-                            <table class="table table-hover table-bordered">
+                            <table id="unique-dest-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
                                 <thead>
                                     <tr>
                                         <th>Destination IP</th>
@@ -91,14 +99,21 @@
                                         <th>Connections</th>
                                     </tr>
                                 </thead>
-                                <tbody id="top-dest-talkers-content">
-
-                                </tbody>
+                                <tbody id="top-dest-talkers-content"></tbody>
+				<tfoot></tfoot>
                             </table>
                         </div>
+		        
                         <div class="col-xs-12">
+			    <br><hr>
+			</div>
+                        <div class="col-xs-12">
+			    <ul class="nav nav-tabs">
+				<li class="active"><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Table</a></li>
+				<li><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Chart</a></li>
+			    </ul>	
                             <h4 class="sub-header">All Unique IPs Ordered By Total Bytes Sent + Received</h4>
-                            <table class="table table-hover table-bordered">
+                            <table id="unique-all-ip-table" class="table table-hover table-bordered highchart" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
                                 <thead>
                                     <tr>
                                         <th>IP</th>
@@ -106,37 +121,42 @@
                                         <th>Connections</th>
                                     </tr>
                                 </thead>
-                                <tbody id="top-talkers-content">
-
-                                </tbody>
+                                <tbody id="top-talkers-content"></tbody>
+				<tfoot></tfoot>
                             </table>
                         </div>
-                        <br>
-                        <hr>
-                            <div class="col-xs-12">
-                                <div class="table-responsive">
-                                    <h4 class="sub-header" id="later-movement-title">Potential Lateral Movement</h4>
-                                    <table class="table table-condensed table-bordered table-hover">
-                                        <thead>
-                                            <tr id="lateral-movement-headings">
-
-                                            </tr>
-
-                                        </thead>
-                                        <tbody id="lateral-movement-content">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                    </div>
+		    </div>
                     <div class="panel-footer"></div>
                 </div>
+		<br>
+                <div hidden id="filtered-events-interface" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Filtered Events</h3>
+                    </div>
+		    <div class="panel-body">
+			<div class="col-xs-12">
+			    <div class="table-responsive">
+				<h4 class="sub-header" id="later-movement-title">Potential Lateral Movement</h4>
+				<table class="table table-condensed table-bordered table-hover">
+				    <thead>
+					<tr id="lateral-movement-headings">
+
+					</tr>
+				    </thead>
+				    <tbody id="lateral-movement-content"></tbody>
+				    <tfoot></tfoot>
+				</table>
+			    </div>
+			</div>
+		    </div>
+		    <div class="panel-footer">
+		    </div>
             </div>
         </div>
     </div>
     <script src="js/jquery.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/jquery.highchartTable-min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
     <script>

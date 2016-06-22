@@ -58,7 +58,9 @@ function populateCorrespondingIndexBox(element){
     if ($("#src-ip-index").val() != '' && $("#dst-ip-index").val() != '' && $("#src-port-index").val() != '' && $("#dst-port-index").val() != '' && $("#size-index").val() != ''){
         $("#column-mapping-interface").slideUp();
         $("#analytics-interface").slideDown();
+        $("#filtered-events-interface").slideDown();
         populateAnalyticsInterface();
+	populateFilteredEventsInterface();
     }
 }
 
@@ -72,7 +74,6 @@ function populateAnalyticsInterface(){
                 tableBody += '<tr><td>' + data[i]["ip"] + "</td>" + "<td>" + data[i]["total_bytes_sent"] + "</td>" + "<td>" + data[i]["occurrences"] + "</td></tr>";
             }
             $("#top-source-talkers-content").html(tableBody);
-
         }
         else{
             alert(response["error"]);
@@ -108,10 +109,12 @@ function populateAnalyticsInterface(){
             alert(response["error"]);
         }
     });
+}
+
+function populateFilteredEventsInterface(){
     $.get('cgi-bin/list_column_headings.py?csvname=' + $("#file-to-analyze-title").text(), function(headings){
             var headingsHTML = "";
             var headings = JSON.parse(headings);
-
             if(headings["error"] == undefined){
                 var headings = headings["success"];
                     for(var i=0; i < headings.length; i++){
@@ -142,5 +145,25 @@ function populateAnalyticsInterface(){
     });
 }
 
-
-
+renderedChartId = 0;
+function toggleHighchart(element, tableElementId){
+	var tabClass = $(element).parent();
+	if (tabClass.text() == "Chart"){
+		if(tabClass.attr('class') != "active"){
+		    $('#' + tableElementId).highchartTable();
+		    $('#' + tableElementId).fadeOut();
+	    	    tabClass.parent().children().removeClass('active');
+		    tabClass.addClass("active");
+		}
+	}
+	else{
+	    if(tabClass.attr('class') != "active"){
+		    tabClass.parent().children().removeClass('active');
+		    tabClass.addClass("active");
+		    $('#' + tableElementId).fadeIn();
+                    tabClass.parent().parent().find('.highcharts-container')[0].remove();
+		    //$('#highcharts-' + renderedChartId).parent().remove();	
+		    //renderedChartId+=4;
+	    }
+	}
+}
