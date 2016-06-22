@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyze Netflow CSV Dumps - By Jamin Becker</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>File to Analyze?</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="file-selection-button" data-toggle="dropdown">Select CSV File <span class="caret"></span></button>
+                            <ul id="file-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+                <div hidden id="column-mapping-interface" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 id="file-to-analyze-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="dropdown">
+                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="src-ip-selection-button" data-toggle="dropdown">Select Source IP Column <span class="caret"></span></button>&nbsp<input disabled id="src-ip-index" style="width:70%;" align="right"></input>
+                            <ul id="src-ip-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="dropdown">
+                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="dst-ip-selection-button" data-toggle="dropdown">Select Destination IP Column <span class="caret"></span></button>&nbsp<input disabled id="dst-ip-index" style="width:70%;" align="right"></input>
+                            <ul id="dst-ip-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="dropdown">
+                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="src-port-selection-button" data-toggle="dropdown">Select Source Port Column <span class="caret"></span></button>&nbsp<input disabled id="src-port-index" style="width:70%;" align="right"></input>
+                            <ul id="src-port-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="dropdown">
+                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="dst-port-selection-button" data-toggle="dropdown">Select Destination Port Column <span class="caret"></span></button>&nbsp<input disabled id="dst-port-index" style="width:70%;" align="right"></input>
+                            <ul id="dst-port-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="dropdown">
+                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="size-selection-button" data-toggle="dropdown">Transaction Size Column <span class="caret"></span></button>&nbsp<input disabled id="size-index" style="width:70%;" align="right"></input>
+                            <ul id="size-selection-content" class="dropdown-menu", role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+                <div hidden id="analytics-interface" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Analytics</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-xs-6">
+                            <h4 class="sub-header">Unique Source IPs Ordered By Total Bytes Sent</h4>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Source IP</th>
+                                        <th>Total Bytes</th>
+                                        <th>Connections</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-source-talkers-content">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <h4 class="sub-header">Unique Destination IPs Ordered By Total Bytes Received</h4>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Destination IP</th>
+                                        <th>Total Bytes</th>
+                                        <th>Connections</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-dest-talkers-content">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <hr>
+
+                            <div class="table-responsive">
+                                <h4 class="sub-header" id="later-movement-title">Potential Lateral Movement</h4>
+                                <table class="table table-condensed table-bordered table-hover">
+                                    <thead>
+                                        <tr id="lateral-movement-headings">
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="lateral-movement-content">
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        populateSelectCSVDropdown();
+    </script>
+
+</body>
+</html>
