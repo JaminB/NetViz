@@ -1,5 +1,3 @@
-__author__ = 'HKEFF7'
-
 import sys
 def list_files_in_directory(directory, include_hidden=False, sort_by_creation_date=False):
     from os import listdir
