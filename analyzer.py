@@ -27,7 +27,7 @@ class AnalysisSession():
         import csv
         importedRows = []
         try:
-            with open(location, "rb") as f:
+            with open(location, "rU") as f:
                 reader = csv.reader(f)
                 for row in reader:
                    importedRows.append(row)

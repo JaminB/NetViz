@@ -1,10 +1,10 @@
 # NetViz
-#### A Very Simple Vizualization Tool for CSV formatted Network Logs
+#### A Very Simple Vizualization Tool for CSV Formatted Network Logs
 ##### Version 0.2
 ###### Author: Jamin Becker
 ###### License: GNU GPLv3
 
-NetViz allows you to easily vizualize any CSV formatted network log as long as it contains the following columns:
+NetViz allows you to easily vizualize any CSV formatted network log as long as it contains the following column equivalents:
 
   - Source IP
   - Destination IP
