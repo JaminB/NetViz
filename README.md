@@ -4,6 +4,8 @@
 ###### Author: Jamin Becker
 ###### License: GNU GPLv3
 
+![Analytics Interface](https://s32.postimg.org/fjeomu6k5/Screen_Shot_2016_06_22_at_7_51_02_PM.png)
+
 NetViz allows you to easily vizualize any CSV formatted network log as long as it contains the following column equivalents:
 
   - Source IP
@@ -11,6 +13,7 @@ NetViz allows you to easily vizualize any CSV formatted network log as long as i
   - Source Port
   - Destination Port
   - Bytes Sent / Received
+
 
 
 ### Installation/Usage
