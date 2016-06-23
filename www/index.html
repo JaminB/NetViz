@@ -1,167 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NetViz 0.2 - Jamin Becker</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <br>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3>File to Analyze?</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="file-selection-button" data-toggle="dropdown">Select CSV File <span class="caret"></span></button>
-                            <ul id="file-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="panel-footer"></div>
-                </div>
-                <div hidden id="column-mapping-interface" class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 id="file-to-analyze-title"></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="dropdown">
-                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="src-ip-selection-button" data-toggle="dropdown">Select Source IP Column <span class="caret"></span></button>&nbsp<input disabled id="src-ip-index" style="width:70%;" align="right"></input>
-                            <ul id="src-ip-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                        <br>
-                        <div class="dropdown">
-                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="dst-ip-selection-button" data-toggle="dropdown">Select Destination IP Column <span class="caret"></span></button>&nbsp<input disabled id="dst-ip-index" style="width:70%;" align="right"></input>
-                            <ul id="dst-ip-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                        <br>
-                        <div class="dropdown">
-                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="src-port-selection-button" data-toggle="dropdown">Select Source Port Column <span class="caret"></span></button>&nbsp<input disabled id="src-port-index" style="width:70%;" align="right"></input>
-                            <ul id="src-port-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                        <br>
-                        <div class="dropdown">
-                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="dst-port-selection-button" data-toggle="dropdown">Select Destination Port Column <span class="caret"></span></button>&nbsp<input disabled id="dst-port-index" style="width:70%;" align="right"></input>
-                            <ul id="dst-port-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                        <br>
-                        <div class="dropdown">
-                            <button style="width:29%" class="btn btn-default dropdown-toggle" type="button" id="size-selection-button" data-toggle="dropdown">Transaction Size Column <span class="caret"></span></button>&nbsp<input disabled id="size-index" style="width:70%;" align="right"></input>
-                            <ul id="size-selection-content" class="dropdown-menu", role="menu">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="panel-footer"></div>
-                </div>
-                <div hidden id="analytics-interface" class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3>Analytics</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-xs-6">
-			    <ul class="nav nav-tabs">
-				<li class="active"><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Table</a></li>
-				<li><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Chart</a></li>
-			    </ul>	
-                            <h4 class="sub-header">Unique Source IPs Ordered By Total Bytes Sent</h4>
-                            <table id="unique-source-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
-                                <thead>
-                                    <tr>
-                                        <th>Source IP</th>
-                                        <th>Total Bytes</th>
-                                        <th>Connections</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="top-source-talkers-content"></tbody>
-				<tfoot></tfoot>
-                            </table>
-			    <div id="unique-source-ip-container"></div>
-                        </div>
-                        <div class="col-xs-6">
-			    <ul class="nav nav-tabs">
-				<li class="active"><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Table</a></li>
-				<li><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Chart</a></li>
-			    </ul>	
-                            <h4 class="sub-header">Unique Destination IPs Ordered By Total Bytes Received</h4>
-                            <table id="unique-dest-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
-                                <thead>
-                                    <tr>
-                                        <th>Destination IP</th>
-                                        <th>Total Bytes</th>
-                                        <th>Connections</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="top-dest-talkers-content"></tbody>
-				<tfoot></tfoot>
-                            </table>
-                        </div>
-		        
-                        <div class="col-xs-12">
-			    <br><hr>
-			</div>
-                        <div class="col-xs-12">
-			    <ul class="nav nav-tabs">
-				<li class="active"><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Table</a></li>
-				<li><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Chart</a></li>
-			    </ul>	
-                            <h4 class="sub-header">All Unique IPs Ordered By Total Bytes Sent + Received</h4>
-                            <table id="unique-all-ip-table" class="table table-hover table-bordered highchart" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
-                                <thead>
-                                    <tr>
-                                        <th>IP</th>
-                                        <th>Total Bytes</th>
-                                        <th>Connections</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="top-talkers-content"></tbody>
-				<tfoot></tfoot>
-                            </table>
-                        </div>
-		    </div>
-                    <div class="panel-footer"></div>
-                </div>
-		<br>
-                <div hidden id="filtered-events-interface" class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3>Filtered Events</h3>
-                    </div>
-		    <div class="panel-body">
-			<div class="col-xs-12">
-			    <div class="table-responsive">
-				<h4 class="sub-header" id="later-movement-title">Potential Lateral Movement</h4>
-				<table class="table table-condensed table-bordered table-hover">
-				    <thead>
-					<tr id="lateral-movement-headings">
-
-					</tr>
-				    </thead>
-				    <tbody id="lateral-movement-content"></tbody>
-				    <tfoot></tfoot>
-				</table>
-			    </div>
-			</div>
-		    </div>
-		    <div class="panel-footer">
-		    </div>
+   <head>
+      <meta charset="UTF-8">
+      <title>NetViz 0.2 - Jamin Becker</title>
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/styles.css" rel="stylesheet">
+   </head>
+   <body>
+      <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12">
+            <br>
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <h3>File to Analyze?</h3>
+               </div>
+               <div class="panel-body">
+                  <div class="dropdown">
+                     <button class="btn btn-default dropdown-toggle" type="button" id="file-selection-button" data-toggle="dropdown">Select CSV File <span class="caret"></span></button>
+                     <ul id="file-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+               </div>
+               <div class="panel-footer"></div>
             </div>
-        </div>
-    </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/highcharts.js"></script>
-    <script src="js/jquery.highchartTable-min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script>
-        populateSelectCSVDropdown();
-    </script>
+            <div hidden id="column-mapping-interface" class="panel panel-default">
+               <div class="panel-heading">
+                  <h3 id="file-to-analyze-title"></h3>
+               </div>
+               <div class="panel-body">
+                  <div class="dropdown">
+                     <button style="width:29%" class="btn btn-primary dropdown-toggle" type="button" id="src-ip-selection-button" data-toggle="dropdown">Select Source IP Column <span class="caret"></span></button>&nbsp<input disabled id="src-ip-index" style="width:70%;" align="right"></input>
+                     <ul id="src-ip-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+                  <br>
+                  <div class="dropdown">
+                     <button style="width:29%" class="btn btn-primary dropdown-toggle" type="button" id="dst-ip-selection-button" data-toggle="dropdown">Select Destination IP Column <span class="caret"></span></button>&nbsp<input disabled id="dst-ip-index" style="width:70%;" align="right"></input>
+                     <ul id="dst-ip-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+                  <br>
+                  <div class="dropdown">
+                     <button style="width:29%" class="btn btn-warning dropdown-toggle" type="button" id="src-port-selection-button" data-toggle="dropdown">Select Source Port Column <span class="caret"></span></button>&nbsp<input disabled id="src-port-index" style="width:70%;" align="right"></input>
+                     <ul id="src-port-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+                  <br>
+                  <div class="dropdown">
+                     <button style="width:29%" class="btn btn-warning dropdown-toggle" type="button" id="dst-port-selection-button" data-toggle="dropdown">Select Destination Port Column <span class="caret"></span></button>&nbsp<input disabled id="dst-port-index" style="width:70%;" align="right"></input>
+                     <ul id="dst-port-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+                  <br>
+                  <div class="dropdown">
+                     <button style="width:29%" class="btn btn-warning dropdown-toggle" type="button" id="size-selection-button" data-toggle="dropdown">Transaction Size Column <span class="caret"></span></button>&nbsp<input disabled id="size-index" style="width:70%;" align="right"></input>
+                     <ul id="size-selection-content" class="dropdown-menu", role="menu">
+                     </ul>
+                  </div>
+                   <br>
+                   <div class="dropdown">
+                     <button style="width:29%" class="btn btn-info dropdown-toggle" type="button" id="size-unit-selection-button" data-toggle="dropdown">Size Unit<span class="caret"></span></button>&nbsp<input disabled id="size-unit-index" style="width:70%;" align="right"></input>
+                     <ul id="size-unit-selection-content" class="dropdown-menu", role="menu">
+                         <li onclick='populateCorrespondingIndexBox($(this));' role='presentation'><a>Bytes</a></li>
+                         <li onclick='populateCorrespondingIndexBox($(this));' role='presentation'><a>Kilobytes</a></li>
+                         <li onclick='populateCorrespondingIndexBox($(this));' role='presentation'><a>Megabytes</a></li>
+                         <li onclick='populateCorrespondingIndexBox($(this));' role='presentation'><a>Gigabytes</a></li>
+                         <li onclick='populateCorrespondingIndexBox($(this));' role='presentation'><a>Packets</a></li>
+                     </ul>
+                  </div>
 
-</body>
+               </div>
+               <div class="panel-footer"></div>
+            </div>
+            <div hidden id="analytics-interface" class="panel panel-default">
+               <div class="panel-heading">
+                  <h3>Analytics</h3>
+               </div>
+               <div class="panel-body">
+                  <div class="col-xs-6">
+                     <ul class="nav nav-tabs">
+                        <li class="active"><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Table</a></li>
+                        <li><a onclick="toggleHighchart(this, 'unique-source-ip-table')">Chart</a></li>
+                     </ul>
+                     <h4 class="sub-header unit">Unique Source IPs Ordered By Total %unit% Sent</h4>
+                     <table id="unique-source-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
+                        <thead>
+                           <tr>
+                              <th>Source IP</th>
+                              <th class="unit">Total %unit%</th>
+                              <th>Connections</th>
+                           </tr>
+                        </thead>
+                        <tbody id="top-source-talkers-content"></tbody>
+                        <tfoot></tfoot>
+                     </table>
+                     <div id="unique-source-ip-container"></div>
+                  </div>
+                  <div class="col-xs-6">
+                     <ul class="nav nav-tabs">
+                        <li class="active"><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Table</a></li>
+                        <li><a onclick="toggleHighchart(this, 'unique-dest-ip-table')">Chart</a></li>
+                     </ul>
+                     <h4 class="sub-header unit">Unique Destination IPs Ordered By Total %unit% Received</h4>
+                     <table id="unique-dest-ip-table" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
+                        <thead>
+                           <tr>
+                              <th>Destination IP</th>
+                              <th class="unit">Total %unit%</th>
+                              <th>Connections</th>
+                           </tr>
+                        </thead>
+                        <tbody id="top-dest-talkers-content"></tbody>
+                        <tfoot></tfoot>
+                     </table>
+                  </div>
+                  <div class="col-xs-12">
+                     <br>
+                     <hr>
+                  </div>
+                  <div class="col-xs-12">
+                     <ul class="nav nav-tabs">
+                        <li class="active"><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Table</a></li>
+                        <li><a onclick="toggleHighchart(this, 'unique-all-ip-table')">Chart</a></li>
+                     </ul>
+                     <h4 class="sub-header unit">All Unique IPs Ordered By Total %unit% Sent + Received</h4>
+                     <table id="unique-all-ip-table" class="table table-hover table-bordered highchart" class="table table-hover table-bordered highchart" data-graph-container-before="1" data-graph-type="column">
+                        <thead>
+                           <tr>
+                              <th>IP</th>
+                              <th class="unit">Total %unit%</th>
+                              <th>Connections</th>
+                           </tr>
+                        </thead>
+                        <tbody id="top-talkers-content"></tbody>
+                        <tfoot></tfoot>
+                     </table>
+                  </div>
+               </div>
+               <div class="panel-footer"></div>
+            </div>
+            <br>
+            <div hidden id="filtered-events-interface" class="panel panel-default">
+               <div class="panel-heading">
+                  <h3>Filtered Events</h3>
+               </div>
+               <div class="panel-body">
+                  <div class="col-xs-12">
+                     <div class="table-responsive">
+                        <h4 class="sub-header" id="later-movement-title">Potential Lateral Movement</h4>
+                        <table class="table table-condensed table-bordered table-hover">
+                           <thead>
+                              <tr id="lateral-movement-headings">
+                              </tr>
+                           </thead>
+                           <tbody id="lateral-movement-content"></tbody>
+                           <tfoot></tfoot>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <div class="panel-footer">
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/highcharts.js"></script>
+      <script src="js/jquery.highchartTable-min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/scripts.js"></script>
+      <script>
+         populateSelectCSVDropdown();
+      </script>
+   </body>
 </html>

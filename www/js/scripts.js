@@ -51,16 +51,21 @@ function populateCorrespondingIndexBox(element){
     else if(element.parent().attr("id") == "dst-port-selection-content"){
         $("#dst-port-index").val(element.index());
     }
-    else{
+    else if(element.parent().attr("id") == "size-selection-content"){
         $("#size-index").val(element.index());
     }
+    //size-unit-selection-button
+    else{
+        $("#size-unit-index").val(element.text());
+    }
 
-    if ($("#src-ip-index").val() != '' && $("#dst-ip-index").val() != '' && $("#src-port-index").val() != '' && $("#dst-port-index").val() != '' && $("#size-index").val() != ''){
+    if ($("#src-ip-index").val() != '' && $("#dst-ip-index").val() != '' && $("#src-port-index").val() != '' && $("#dst-port-index").val() != '' && $("#size-index").val() != '' && $("#size-unit-index").val() != ''){
         $("#column-mapping-interface").slideUp();
         $("#analytics-interface").slideDown();
         $("#filtered-events-interface").slideDown();
         populateAnalyticsInterface();
-	populateFilteredEventsInterface();
+	    populateFilteredEventsInterface();
+	    addSizeUnit();
     }
 }
 
@@ -145,7 +150,6 @@ function populateFilteredEventsInterface(){
     });
 }
 
-renderedChartId = 0;
 function toggleHighchart(element, tableElementId){
 	var tabClass = $(element).parent();
 	if (tabClass.text() == "Chart"){
@@ -166,4 +170,18 @@ function toggleHighchart(element, tableElementId){
 		    //renderedChartId+=4;
 	    }
 	}
+}
+
+function addSizeUnit(){
+    $('.unit').each(function(){
+        $(this).html(
+            $(this).html()
+                .replace('%unit%', $('#size-unit-index').val())
+                .replace('Bytes', $('#size-unit-index').val())
+                .replace('Kilobytes', $('#size-unit-index').val())
+                .replace('Megabytes', $('#size-unit-index').val())
+                .replace('Gigabytes', $('#size-unit-index').val())
+                .replace('Packets', $('#size-unit-index').val())
+        );
+    });
 }
