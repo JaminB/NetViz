@@ -127,6 +127,26 @@ function populateFilteredEventsInterface(){
                     }
             }
 
+             $.get("cgi-bin/list_connections_on_port.py?csvname=" + $("#file-to-analyze-title").text() + "&srcportcoli=" + $("#src-port-index").val() + "&dstportcoli=" + $("#dst-port-index").val() + "&port=22&label=ssh", function(rows){
+                var rowsHTML = "";
+                var rows = JSON.parse(rows);
+                if(rows["error"] == undefined){
+                        var rows = rows["success"][1]
+                        for(var j=0; j < rows.length; j++){
+                            rowsHTML += "<tr>";
+                            for(var jj=0; jj < rows[j].length; jj++){
+                                rowsHTML += "<td>" + rows[j][jj] + "</td>"
+                            }
+                            rowsHTML += "</tr>";
+                        }
+                        $("#ssh-connections-content").html(rowsHTML);
+                        $("#ssh-connections-headings").html(headingsHTML);
+                        $("#ssh-connections-title").fadeIn();
+                    }
+             });
+
+
+
              $.get("cgi-bin/list_lateral_movement_connections.py?csvname=" + $("#file-to-analyze-title").text() + "&srcportcoli=" + $("#src-port-index").val() + "&dstportcoli=" + $("#dst-port-index").val(), function(rows){
                     var rowsHTML = "";
                     var rows = JSON.parse(rows);
@@ -141,12 +161,9 @@ function populateFilteredEventsInterface(){
                         }
                         $("#lateral-movement-content").html(rowsHTML);
                         $("#lateral-movement-headings").html(headingsHTML);
-                    }
-                    else{
-                        $("#later-movement-title").hide();
+                        $("#lateral-movement-title").fadeIn();
                     }
                 });
-
     });
 }
 

@@ -1,5 +1,5 @@
 #! /usr/bin/python
-import sys, json, cgi, csv
+import sys, json, cgi
 sys.path.append("../")
 sys.path.append("../../")
 print("Content Type: text/json\n")
@@ -9,7 +9,7 @@ if "csvname" in form:
     if "srcportcoli" in form:
         if "dstportcoli" in form:
             session = analyzer.AnalysisSession('csvs/' + form.getvalue('csvname').strip(), srcportcolumni=int(form.getvalue('srcportcoli').strip()), dstportcolumni=int(form.getvalue('dstportcoli').strip()))
-            result = session.get_potential_lateral_movement_connections()
+            result = session.get_connections_by_potential_lateral_movement()
             try:
                 data = result["success"]
                 if len(data) > 0:

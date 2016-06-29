@@ -117,7 +117,7 @@ class AnalysisSession():
         else:
             return {"error": "size column index never specified"}
 
-    def get_potential_lateral_movement_connections(self):
+    def get_connections_by_potential_lateral_movement(self):
         LATERAL_MOVEMENT_PORTS = ['139', '445', '3389']
         lateralMovementRows = []
         if self.srcportcolumni != None and self.dstportcolumni != None:
@@ -128,7 +128,7 @@ class AnalysisSession():
         else:
             return {"error": "source and/or destination port column indices never specified"}
 
-    def get_connections_by_ports(self, port, label):
+    def get_connections_by_port(self, port, label):
         rows = []
         if self.srcportcolumni != None and self.dstportcolumni != None:
                 for row in self.get_csv_as_list(data=True):
