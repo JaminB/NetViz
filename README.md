@@ -32,4 +32,3 @@ NetViz allows you to easily vizualize any CSV formatted network log as long as i
 * Inside the newly extracted folder add the CSV formatted network logs you wish to analyze into www/csvs
 * Navigate back to the top-level directory ./start.py
 * Navigate to http://localhost:8000
-
