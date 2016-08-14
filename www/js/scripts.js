@@ -1,3 +1,53 @@
+
+function yesUploadSelected(){
+    $("#browse-options").fadeIn();
+}
+
+function noUploadSelected(){
+    $('#file-select-interface').slideDown();
+    populateSelectCSVDropdown();
+    $('#file-upload-interface').slideUp();
+}
+
+function browse(){
+	$('#upload').click();
+}
+
+function initializeUploadInterface(){
+    $(document).ready(function () {
+	    $('#main-form').on('submit', function(e) {
+		e.preventDefault();
+	    });
+	});
+	$(function () {
+    		$('#upload').fileupload({
+			url: '/cgi-bin/upload.py',
+        		dataType: 'json',
+    			done: function (e, data) {
+				var fileStatus = data["result"]["files"];
+                    if (fileStatus["error"] != undefined){
+                        var message = "<b style='color:red'> Error: </b>" + fileStatus["error"];
+                        bootbox.alert(message, function(){
+                        });
+                    }
+                    else{
+                            $("#browse-button").text("Upload Another");
+                            $("#done-uploading-button").slideDown();
+                    }
+                }
+    		});
+	});
+	$('#upload').fileupload({
+    		progressall: function (e, data) {
+        	var progress = parseInt(data.loaded / data.total * 100, 10);
+        		$('#progress .bar').css(
+            			'width',
+            			progress + '%'
+        		);
+    		}
+	});
+}
+
 function populateSelectCSVDropdown(){
     $.get("cgi-bin/list_csv_files.py", function(response){
         var response = JSON.parse(response)

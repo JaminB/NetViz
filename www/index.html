@@ -11,7 +11,35 @@
       <div class="row">
          <div class="col-md-12">
             <br>
-            <div class="panel panel-default">
+            <div id="file-upload-interface"  class="panel panel-default">
+               <div class="panel-heading">
+                  <h3>Want to upload a new file?</h3>
+               </div>
+               <div class="panel-body">
+                  <div class="dropdown">
+                     <button class="btn btn-success dropdown-toggle" type="button" id="yes-upload-new-button" onclick="yesUploadSelected()">Yes</button>
+                     <button class="btn btn-danger dropdown-toggle" type="button" id="no-upload-new-button" onclick="noUploadSelected()">No</button>
+                     <br>
+                     <div id="upload-options">
+                        <div hidden id="browse-options">
+                           <hr>
+                           <i><b>Ok, select a CSV to upload.</b></i>
+                           <form>
+                              <button id="browse-button" type="button" class="btn-xs btn-default form-button" style="width:10%;height:100%" onclick="browse()">Browse</button>
+                              <input id="upload" type="file" name="myfile" style="display:none" accept=".csv">
+                              <button hidden class="btn btn-xs btn-success form-button" type="button" id="done-uploading-button" style="display:none" onclick="noUploadSelected()">Continue</button>
+                              <div id="progress">
+    				             <div class="bar" style="width: 0%;"></div>
+			                  </div>
+                           </form>
+                           <hr>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="panel-footer"></div>
+            </div>
+            <div hidden id="file-select-interface" class="panel panel-default">
                <div class="panel-heading">
                   <h3>File to Analyze?</h3>
                </div>
@@ -179,12 +207,15 @@
          </div>
       </div>
       <script src="js/jquery.min.js"></script>
+      <script src="js/jquery.ui.widgets.js"></script>
+      <script src="js/bootbox.min.js"></script>
       <script src="js/highcharts.js"></script>
       <script src="js/jquery.highchartTable-min.js"></script>
       <script src="js/bootstrap.min.js"></script>
+      <script src="js/fileupload.js"></script>
       <script src="js/scripts.js"></script>
       <script>
-         populateSelectCSVDropdown();
+            initializeUploadInterface();
       </script>
    </body>
 </html>
