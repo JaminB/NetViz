@@ -139,7 +139,7 @@ function populateAnalyticsInterface(){
                {
                     dom: 'Blfrtip',
                     buttons: [
-                        'copy', 'csv', 'print'
+                        'copy', 'csv'
                     ]
                 }
                );
@@ -163,7 +163,7 @@ function populateAnalyticsInterface(){
                 {
                     dom: 'Blfrtip',
                     buttons: [
-                        'copy', 'csv', 'print'
+                        'copy', 'csv'
                     ]
                 });
             });
@@ -187,7 +187,7 @@ function populateAnalyticsInterface(){
                {
                     dom: 'Blfrtip',
                     buttons: [
-                        'copy', 'csv', 'print'
+                        'copy', 'csv'
                     ]
                 }
                );
@@ -231,7 +231,7 @@ function populateFilteredEventsInterface(){
                                 {
                                     dom: 'Blfrtip',
                                     buttons: [
-                                    'copy', 'csv', 'print'
+                                    'copy', 'csv'
                                     ]
                                 }
                             );
@@ -261,12 +261,11 @@ function populateFilteredEventsInterface(){
                                 {
                                     dom: 'Blfrtip',
                                     buttons: [
-                                    'copy', 'csv', 'print'
+                                    'copy', 'csv'
                                     ]
                                 }
                             );
                         });
-
                     }
                 });
     });
