@@ -113,8 +113,12 @@ function populateCorrespondingIndexBox(element){
         $("#column-mapping-interface").slideUp();
         $("#analytics-interface").slideDown();
         $("#filtered-events-interface").slideDown();
-        populateAnalyticsInterface();
-	    populateFilteredEventsInterface();
+
+	    $(document).ready(function() {
+	            populateAnalyticsInterface();
+	            populateFilteredEventsInterface();
+
+        });
 	    addSizeUnit();
     }
 }
@@ -129,6 +133,17 @@ function populateAnalyticsInterface(){
                 tableBody += '<tr><td>' + data[i]["ip"] + "</td>" + "<td>" + data[i]["total_bytes_sent"] + "</td>" + "<td>" + data[i]["occurrences"] + "</td></tr>";
             }
             $("#top-source-talkers-content").html(tableBody);
+            //Convert to datatable
+            $(document).ready(function() {
+               $("#unique-source-ip-table").DataTable(
+               {
+                    dom: 'Blfrtip',
+                    buttons: [
+                        'copy', 'csv', 'print'
+                    ]
+                }
+               );
+            });
         }
         else{
             alert(response["error"]);
@@ -143,6 +158,15 @@ function populateAnalyticsInterface(){
                 tableBody += '<tr><td>' + data[i]["ip"] + "</td>" + "<td>" + data[i]["total_bytes_sent"] + "</td>" + "<td>" + data[i]["occurrences"] + "</td></tr>";
             }
             $("#top-dest-talkers-content").html(tableBody);
+            $(document).ready(function() {
+               $("#unique-dest-ip-table").DataTable(
+                {
+                    dom: 'Blfrtip',
+                    buttons: [
+                        'copy', 'csv', 'print'
+                    ]
+                });
+            });
 
         }
         else{
@@ -158,6 +182,16 @@ function populateAnalyticsInterface(){
                 tableBody += '<tr><td>' + data[i]["ip"] + "</td>" + "<td>" + data[i]["total_bytes_sent"] + "</td>" + "<td>" + data[i]["occurrences"] + "</td></tr>";
             }
             $("#top-talkers-content").html(tableBody);
+            $(document).ready(function() {
+               $("#unique-all-ip-table").DataTable(
+               {
+                    dom: 'Blfrtip',
+                    buttons: [
+                        'copy', 'csv', 'print'
+                    ]
+                }
+               );
+            });
 
         }
         else{
@@ -192,6 +226,16 @@ function populateFilteredEventsInterface(){
                         $("#ssh-connections-content").html(rowsHTML);
                         $("#ssh-connections-headings").html(headingsHTML);
                         $("#ssh-connections-title").fadeIn();
+                        $(document).ready(function() {
+                            $("#ssh-connections-table").DataTable(
+                                {
+                                    dom: 'Blfrtip',
+                                    buttons: [
+                                    'copy', 'csv', 'print'
+                                    ]
+                                }
+                            );
+                        });
                     }
              });
 
@@ -212,6 +256,17 @@ function populateFilteredEventsInterface(){
                         $("#lateral-movement-content").html(rowsHTML);
                         $("#lateral-movement-headings").html(headingsHTML);
                         $("#lateral-movement-title").fadeIn();
+                        $(document).ready(function() {
+                            $("#potential-lateral-movement-table").DataTable(
+                                {
+                                    dom: 'Blfrtip',
+                                    buttons: [
+                                    'copy', 'csv', 'print'
+                                    ]
+                                }
+                            );
+                        });
+
                     }
                 });
     });
@@ -232,7 +287,7 @@ function toggleHighchart(element, tableElementId){
 		    tabClass.parent().children().removeClass('active');
 		    tabClass.addClass("active");
 		    $('#' + tableElementId).fadeIn();
-                    tabClass.parent().parent().find('.highcharts-container')[0].remove();
+            tabClass.parent().parent().find('.highcharts-container')[0].remove();
 		    //$('#highcharts-' + renderedChartId).parent().remove();	
 		    //renderedChartId+=4;
 	    }

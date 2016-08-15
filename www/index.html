@@ -4,6 +4,8 @@
       <meta charset="UTF-8">
       <title>NetViz 0.2 - Jamin Becker</title>
       <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/jquery.dataTables.min.css" rel="stylesheet">
+      <link href="css/buttons.dataTables.min.css" rel="stylesheet">
       <link href="css/styles.css" rel="stylesheet">
    </head>
    <body>
@@ -178,7 +180,7 @@
                   <div class="col-xs-12">
                       <div class="table-responsive" style="max-height:500px">
                         <h4 hidden class="sub-header" id="ssh-connections-title" style="color:blue">SSH Connections</h4>
-                        <table class="table table-condensed table-bordered table-hover">
+                        <table id="ssh-connections-table" class="table table-condensed table-bordered table-hover">
                            <thead>
                               <tr id="ssh-connections-headings">
                               </tr>
@@ -190,7 +192,7 @@
                       <hr>
                      <div class="table-responsive" style="max-height:500px">
                         <h4 hidden class="sub-header" id="lateral-movement-title" style="color:red">Potential Lateral Movement</h4>
-                        <table class="table table-condensed table-bordered table-hover">
+                        <table id="potential-lateral-movement-table" class="table table-condensed table-bordered table-hover">
                            <thead>
                               <tr id="lateral-movement-headings">
                               </tr>
@@ -207,6 +209,8 @@
          </div>
       </div>
       <script src="js/jquery.min.js"></script>
+      <script src="js/datatables.min.js"></script>
+      <script src="js/buttons.html5.min.js"></script>
       <script src="js/jquery.ui.widgets.js"></script>
       <script src="js/bootbox.min.js"></script>
       <script src="js/highcharts.js"></script>
@@ -216,6 +220,8 @@
       <script src="js/scripts.js"></script>
       <script>
             initializeUploadInterface();
+
       </script>
-   </body>
+   </div>
+</body>
 </html>
